@@ -29,7 +29,9 @@ defmodule LessAlexa.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:plug, ">= 1.3.0"}
+      {:plug, ">= 1.3.0"},
+      {:certifi, ">= 0.0.0"},
+      {:httpotion, ">= 0.0.0"}
     ]
   end
 end

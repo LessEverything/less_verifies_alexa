@@ -1,4 +1,9 @@
 defmodule LessAlexa.Certificate do
+  @moduledoc """
+  This module is used as a part of the certificate validation process.
+  It's responsible for fetching Amazon PEMs and using them to
+  validating any incoming requests.
+  """
   require Record
 
   @pubkey_schema Record.extract_all(from_lib: "public_key/include/OTP-PUB-KEY.hrl")

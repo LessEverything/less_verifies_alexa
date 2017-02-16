@@ -49,12 +49,32 @@ defmodule LessAlexa.Certificate do
       |> get_field(:validity)
 
     convert = fn (time) ->
-      time |> to_string() |> Timex.parse!("%y%m%d%H%M%SZ", :strftime)
+      time |> to_string() |> parse_date
     end
 
     {convert.(from), convert.(to)}
   end
 
+  defp parse_date(date_string) do
+    date_r = ~r/(?<y>\d\d)(?<mo>\d\d)(?<d>\d\d)(?<h>\d\d)(?<min>\d\d)(?<s>\d\d)Z/
+    date_r
+      |> Regex.named_captures(date_string)
+      |> captures_to_datetime
+  end
+
+  defp captures_to_datetime(nil), do: raise "Bad date string in certificate"
+  defp captures_to_datetime(captures) do
+    captures = Enum.map(captures, fn ({k,v}) -> {String.to_atom(k), String.to_integer(v)} end)
+    {:ok, dt} = NaiveDateTime.new(
+      2000 + captures[:y],
+      captures[:mo],
+      captures[:d],
+      captures[:h],
+      captures[:min],
+      captures[:s]
+    )
+    dt
+  end
   defp get_field(record, field) do
     record_type = elem(record, 0)
     idx = @pubkey_schema[record_type]

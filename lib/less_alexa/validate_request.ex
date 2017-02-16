@@ -1,8 +1,10 @@
 defmodule LessAlexa.ValidateRequest do
   import Plug.Conn
 
+  @spec init(keyword()) :: keyword()
   def init(opts), do: opts
 
+  @spec call(Plug.Conn.t, keyword()) :: Plug.Conn.t
   def call(conn, opts) do
     conn
     |> check_signature_url
@@ -37,7 +39,7 @@ defmodule LessAlexa.ValidateRequest do
     [signature] = get_req_header(conn, "signature")
     [cert_url] = get_req_header(conn, "signaturecertchainurl")
     raw_body = conn.private[:raw_body]
-    cert = LessAlexa.Certificate.fetch(cert_url)
+    {:ok, cert} = LessAlexa.Certificate.fetch(cert_url)
 
     case LessAlexa.Certificate.valid?(signature, cert, raw_body) do
       :ok -> conn

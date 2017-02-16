@@ -4,6 +4,7 @@ defmodule LessAlexa.Certificate do
   @pubkey_schema Record.extract_all(from_lib: "public_key/include/OTP-PUB-KEY.hrl")
   @subject_altname_id {2, 5, 29, 17}
 
+  @spec valid?(String.t, String.t, String.t) :: :ok | {:error, atom()}
   def valid?(signature, pem, raw_body) do
     certs = pem
       |> :public_key.pem_decode()
@@ -27,6 +28,7 @@ defmodule LessAlexa.Certificate do
   end
 
   # TODO: Actually cache
+  @spec fetch(String.t) :: {:ok, String.t} | {atom(), atom()}
   def fetch(pem_url) do
     client = Application.fetch_env!(:less_alexa, :http_client)
     ets_table = :ets.new(:alexa_pems, [])

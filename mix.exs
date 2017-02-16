@@ -32,7 +32,8 @@ defmodule LessAlexa.Mixfile do
       {:plug, ">= 1.3.0"},
       {:certifi, ">= 1.0.0"},
       {:httpotion, "~> 3.0"},
-      {:credo, "~> 0.6", only: :dev}
+      {:credo, "~> 0.6", only: [:dev], runtime: false},
+      {:dialyxir, "~> 0.4", only: [:dev], runtime: false}
     ]
   end
 end

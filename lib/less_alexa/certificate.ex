@@ -4,9 +4,8 @@ defmodule LessAlexa.Certificate do
   @pubkey_schema Record.extract_all(from_lib: "public_key/include/OTP-PUB-KEY.hrl")
   @subject_altname_id {2, 5, 29, 17}
 
-  def valid?(params = {req_signature, pem_url, raw_body}) do
-    certs = pem_url
-      |> fetch_pem()
+  def valid?(req_signature, pem, raw_body) do
+    certs = pem
       |> :public_key.pem_decode()
       |> Enum.map(&get_cert_value/1)
     decoded_certs = Enum.map(certs, &decode_cert/1)
@@ -17,7 +16,15 @@ defmodule LessAlexa.Certificate do
       check_cert_path(certs)
   end
 
-  def check_cert_path(certs) do
+  # TODO: Actually cache
+  def fetch(pem_url) do
+    ets_table = :ets.new(:alexa_pems, [])
+    pem = HTTPotion.get(pem_url).body
+    :ets.insert(ets_table, {pem_url, pem})
+    pem
+  end
+
+  defp check_cert_path(certs) do
     our_certs = Enum.reverse(certs)
     ca_certs = :certifi.cacerts
 
@@ -27,8 +34,8 @@ defmodule LessAlexa.Certificate do
     end
   end
 
-  def get_cert_value({:Certificate, value, :not_encrypted}), do: value
-  def decode_cert(cert) do
+  defp get_cert_value({:Certificate, value, :not_encrypted}), do: value
+  defp decode_cert(cert) do
     cert
       |> :public_key.pkix_decode_cert(:otp)
       |> get_field(:tbsCertificate)
@@ -82,14 +89,6 @@ defmodule LessAlexa.Certificate do
       |> Enum.find_index(&(&1 == field))
 
     elem(record, idx + 1)
-  end
-
-  # TODO: Actually cache
-  defp fetch_pem(pem_url) do
-    ets_table = :ets.new(:alexa_pems, [])
-    pem = HTTPotion.get(pem_url).body
-    :ets.insert(ets_table, {pem_url, pem})
-    pem
   end
 
   defp check_san(certs) do

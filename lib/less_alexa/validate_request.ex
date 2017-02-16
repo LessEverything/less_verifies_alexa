@@ -20,7 +20,7 @@ defmodule LessAlexa.ValidateRequest do
     end
   end
 
-  defp check_application_id(conn, nil) do
+  defp check_application_id(_conn, nil) do
     raise ArgumentError, "ValidateRequest expects an :application_id option"
   end
 
@@ -37,8 +37,9 @@ defmodule LessAlexa.ValidateRequest do
     [signature] = get_req_header(conn, "signature")
     [cert_url] = get_req_header(conn, "signaturecertchainurl")
     raw_body = conn.private[:raw_body]
+    cert = LessAlexa.Certificate.fetch(cert_url)
 
-    case LessAlexa.Certificate.valid?({signature, cert_url, raw_body}) do
+    case LessAlexa.Certificate.valid?(signature, cert, raw_body) do
       true -> conn
       _ -> halt(conn)
     end

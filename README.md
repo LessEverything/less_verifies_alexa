@@ -1,7 +1,7 @@
 # LessAlexa
 
 [![Build Status](https://travis-ci.org/LessEverything/less_alexa.svg?branch=master)](https://travis-ci.org/LessEverything/less_alexa)
-[![Inline docs](http://inch-ci.org/github/LessEverything/less_alexa?branch=master)](http://inch-ci.org/github/LessEverything/less_alexa)
+[![Inline docs](https://inch-ci.org/github/LessEverything/less_alexa.svg?branch=master)](https://inch-ci.org/github/LessEverything/less_alexa)
 
 **TODO: Add description**
 

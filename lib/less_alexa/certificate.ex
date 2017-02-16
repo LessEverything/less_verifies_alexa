@@ -46,7 +46,7 @@ defmodule LessAlexa.Certificate do
     ca_certs = :certifi.cacerts
 
     Enum.any? ca_certs, fn (trusted) ->
-      {status, _details } = :public_key.pkix_path_validation(trusted, our_certs, [])
+      {status, _details} = :public_key.pkix_path_validation(trusted, our_certs, [])
       status == :ok
     end
   end

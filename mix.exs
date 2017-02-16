@@ -30,8 +30,9 @@ defmodule LessAlexa.Mixfile do
   defp deps do
     [
       {:plug, ">= 1.3.0"},
-      {:certifi, ">= 0.0.0"},
-      {:httpotion, ">= 0.0.0"}
+      {:certifi, ">= 1.0.0"},
+      {:httpotion, "~> 3.0"},
+      {:credo, "~> 0.6", only: :dev}
     ]
   end
 end

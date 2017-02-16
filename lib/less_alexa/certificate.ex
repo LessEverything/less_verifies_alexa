@@ -4,16 +4,26 @@ defmodule LessAlexa.Certificate do
   @pubkey_schema Record.extract_all(from_lib: "public_key/include/OTP-PUB-KEY.hrl")
   @subject_altname_id {2, 5, 29, 17}
 
-  def valid?(req_signature, pem, raw_body) do
+  def valid?(signature, pem, raw_body) do
     certs = pem
       |> :public_key.pem_decode()
       |> Enum.map(&get_cert_value/1)
     decoded_certs = Enum.map(certs, &decode_cert/1)
 
-    check_san(decoded_certs) &&
-      check_cert_dates(decoded_certs) &&
-      confirm_payload_signature(hd(decoded_certs), req_signature, raw_body) &&
-      check_cert_path(certs)
+    dates_valid = check_cert_dates(decoded_certs)
+    subject_valid = check_san(decoded_certs)
+    cert_path_valid = check_cert_path(certs)
+    signature_valid = confirm_payload_signature(
+      hd(decoded_certs), signature, raw_body
+    )
+
+    case {dates_valid, subject_valid, cert_path_valid, signature_valid} do
+      {false, _, _, _} -> {:error, :invalid_dates}
+      {_, _, false, _} -> {:error, :invalid_path}
+      {_, false, _, _} -> {:error, :invalid_subject}
+      {_, _, _, false} -> {:error, :invalid_signature}
+      {true, true, true, true} -> :ok
+    end
   end
 
   # TODO: Actually cache
@@ -49,13 +59,17 @@ defmodule LessAlexa.Certificate do
   end
 
   defp extension(cert, ext_id) do
-    cert
+    ext = cert
       |> get_field(:extensions)
       |> Enum.find(fn (ext) ->
         elem(ext, 0) == :Extension &&
-          get_field(ext, :extnID) == ext_id
+          get_field(ext, :extnID) === ext_id
       end)
-      |> get_field(:extnValue)
+
+    case ext do
+      nil -> nil
+      _ -> get_field(ext, :extnValue)
+    end
   end
 
   defp validity(cert) do
@@ -89,6 +103,7 @@ defmodule LessAlexa.Certificate do
     )
     dt
   end
+
   defp get_field(record, field) do
     record_type = elem(record, 0)
     idx = @pubkey_schema[record_type]

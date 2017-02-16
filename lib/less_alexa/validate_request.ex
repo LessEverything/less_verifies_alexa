@@ -40,7 +40,7 @@ defmodule LessAlexa.ValidateRequest do
     cert = LessAlexa.Certificate.fetch(cert_url)
 
     case LessAlexa.Certificate.valid?(signature, cert, raw_body) do
-      true -> conn
+      :ok -> conn
       _ -> halt(conn)
     end
   end

@@ -18,10 +18,17 @@ defmodule LessAlexa.Certificate do
 
   # TODO: Actually cache
   def fetch(pem_url) do
+    client = Application.fetch_env!(:less_alexa, :http_client)
     ets_table = :ets.new(:alexa_pems, [])
-    pem = HTTPotion.get(pem_url).body
-    :ets.insert(ets_table, {pem_url, pem})
-    pem
+    {status, result} = client.get(pem_url)
+
+    case status do
+      :ok ->
+        pem = result.body
+        :ets.insert(ets_table, {pem_url, pem})
+        {:ok, pem}
+      _ -> {status, result}
+    end
   end
 
   defp check_cert_path(certs) do

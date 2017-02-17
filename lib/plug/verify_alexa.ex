@@ -1,16 +1,16 @@
-defmodule LessAlexa.ValidateRequest do
+defmodule Plug.VerifyAlexa do
   @moduledoc """
-  `LessAlexa.ValidateRequest` is a plug that validates requests that
+  `Plug.VerifyAlexa` is a plug that validates requests that
   Amazon's Alexa service sends.
 
   Add the plug to your router like this:
   ```
-  plug LessAlexa.ValidateRequest, application_id: "your_app_id"
+  plug Plug.VerifyAlexa, application_id: "your_app_id"
   ```
 
   In order for the plug to work, there's an additional change you have to make.
   In your `endpoint.ex`, you have to change your Parsers plug to use a custom
-  JSON parser that LessAlexa provides.
+  JSON parser that this plug provides.
 
   Just change `:json` to `:alexajson` and you should end up with something
   like this:
@@ -66,9 +66,9 @@ defmodule LessAlexa.ValidateRequest do
     [signature] = get_req_header(conn, "signature")
     [cert_url] = get_req_header(conn, "signaturecertchainurl")
     raw_body = conn.private[:raw_body]
-    {:ok, cert} = LessAlexa.Certificate.fetch(cert_url)
+    {:ok, cert} = LessVerifiesAlexa.Certificate.fetch(cert_url)
 
-    case LessAlexa.Certificate.valid?(signature, cert, raw_body) do
+    case LessVerifiesAlexa.Certificate.valid?(signature, cert, raw_body) do
       :ok -> conn
       _ -> halt(conn)
     end

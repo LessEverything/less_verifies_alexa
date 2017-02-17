@@ -2,7 +2,7 @@ LEGAL NOTICE INFORMATION
 ------------------------
 
 All the files in this distribution are copyright (c) 2017 LessEverything, Inc.
-covered under LessAlexa's license (see the file LICENSE) except the cases
+covered under LessVerifiesAlexa's license (see the file LICENSE) except the cases
 below.
 
 == lib/plug/src/parsers/alexa_json.erl

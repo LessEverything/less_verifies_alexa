@@ -1,4 +1,4 @@
-defmodule LessAlexa.Certificate do
+defmodule LessVerifiesAlexa.Certificate do
   @moduledoc """
   This module is used as a part of the certificate validation process.
   It's responsible for fetching Amazon PEMs and using them to
@@ -35,7 +35,7 @@ defmodule LessAlexa.Certificate do
   # TODO: Actually cache
   @spec fetch(String.t) :: {:ok, String.t} | {atom(), atom()}
   def fetch(pem_url) do
-    client = Application.get_env(:less_alexa, :http_client, HTTPotion)
+    client = Application.get_env(:less_verifies_alexa, :http_client, HTTPotion)
 
     ets_table = :ets.new(:alexa_pems, [])
     %{body: body, status_code: status} = client.get(pem_url)

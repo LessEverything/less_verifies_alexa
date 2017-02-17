@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :less_alexa, key: :value
+#     config :less_verifies_alexa, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:less_alexa, :key)
+#     Application.get_env(:less_verifies_alexa, :key)
 #
 # Or configure a 3rd-party app:
 #
@@ -29,5 +29,5 @@ use Mix.Config
 #
 
 if Mix.env == :test do
-  config :less_alexa, :http_client, LessAlexa.FakeHTTPotion
+  config :less_verifies_alexa, :http_client, LessVerifiesAlexa.FakeHTTPotion
 end

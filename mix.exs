@@ -1,14 +1,23 @@
-defmodule LessAlexa.Mixfile do
+defmodule LessVerifiesAlexa.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :less_alexa,
+    [app: :less_verifies_alexa,
+     description: "A plug that validates requests from Amazon's Alexa service.",
      version: "0.1.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
-     docs: [main: "LessAlexa.ValidateRequest"]
+     docs: [main: "Plug.VerifyAlexa"],
+     package: [
+       name: :less_verifies_alexa,
+       maintainers: ["Steven Bristol", "Eugen Minciu"],
+       files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+       licenses: ["Apache 2.0"],
+       links: %{"GitHub" => "https://github.com/LessEverything/less_verifies_alexa",
+              "Docs" => "http://hex.pm/less_verifies_alexa"}
+     ]
     ]
   end
 

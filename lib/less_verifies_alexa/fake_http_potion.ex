@@ -1,4 +1,4 @@
-defmodule LessAlexa.FakeHTTPotion do
+defmodule LessVerifiesAlexa.FakeHTTPotion do
   @moduledoc """
   A fake HTTPotion module for use during testing.
   """

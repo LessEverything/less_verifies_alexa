@@ -1,11 +1,11 @@
-defmodule Plug.VerifyAlexa do
+defmodule LessVerifiesAlexa.Plug do
   @moduledoc """
-  `Plug.VerifyAlexa` is a plug that validates requests that
+  `LessVerifiesAlexa.Plug` is a plug that validates requests that
   Amazon's Alexa service sends.
 
   Add the plug to your router like this:
   ```
-  plug Plug.VerifyAlexa, application_id: "your_app_id"
+  plug LessVerifiesAlexa.Plug, application_id: "your_app_id"
   ```
 
   In order for the plug to work, there's an additional change you have to make.

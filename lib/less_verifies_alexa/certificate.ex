@@ -2,7 +2,7 @@ defmodule LessVerifiesAlexa.Certificate do
   @moduledoc """
   This module is used as a part of the certificate validation process.
   It's responsible for fetching Amazon PEMs and using them to
-  validating any incoming requests.
+  validate any incoming requests.
   """
   require Record
 

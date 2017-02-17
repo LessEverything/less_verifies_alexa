@@ -21,7 +21,7 @@ end
 
 Add the plug to your router like this:
 ```
-plug Plug.VerifyAlexa, application_id: "your_app_id"
+plug LessVerifiesAlexa.Plug, application_id: "your_app_id"
 ```
 
 In order for the plug to work, there's an additional change you have to make.

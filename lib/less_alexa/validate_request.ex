@@ -3,9 +3,14 @@ defmodule LessAlexa.ValidateRequest do
   `LessAlexa.ValidateRequest` is a plug that validates requests that
   Amazon's Alexa service sends.
 
-  In order to use it, there's a change you have to make first that's
-  a little incidental. In your `endpoint.ex`, you have to change
-  your Parsers plug to use a custom JSON parser that LessAlexa provides.
+  Add the plug to your router like this:
+  ```
+  plug LessAlexa.ValidateRequest, application_id: "your_app_id"
+  ```
+
+  In order for the plug to work, there's an additional change you have to make.
+  In your `endpoint.ex`, you have to change your Parsers plug to use a custom
+  JSON parser that LessAlexa provides.
 
   Just change `:json` to `:alexajson` and you should end up with something
   like this:
@@ -20,11 +25,6 @@ defmodule LessAlexa.ValidateRequest do
   You have to do this due to a Plug implementation detail we won't go into here.
   Hopefully, we'll soon be submitting a PR to plug itself that should remove the
   need for this custom adapter.
-
-  After this step, the plug can be used in your router like this:
-  ```
-  plug LessAlexa.ValidateRequest, application_id: "your_app_id"
-  ```
   """
   import Plug.Conn
 

@@ -1,7 +1,7 @@
 # LessVerifiesAlexa
 
-[![Build Status](https://travis-ci.org/LessEverything/less_verifies_alexa.svg?branch=master)](https://travis-ci.org/LessEverything/less_verifies_alexa)
-[![Inline docs](https://inch-ci.org/github/LessEverything/less_verifies_alexa.svg?branch=master)](https://inch-ci.org/github/LessEverything/less_verifies_alexa)
+[![Build Status](https://travis-ci.org/LessEverything/less_alexa.svg?branch=master)](https://travis-ci.org/LessEverything/less_alexa)
+[![Inline docs](https://inch-ci.org/github/LessEverything/less_alexa.svg?branch=master)](https://inch-ci.org/github/LessEverything/less_alexa)
 
 This is a plug that validates requests from Amazon's Alexa service.
 Amazon requires that your skills validate requests during its certification process.

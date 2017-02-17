@@ -2,9 +2,9 @@ defmodule LessAlexa.FakeHTTPotion do
   @moduledoc """
   A fake HTTPotion module for use during testing.
   """
-  @spec get(String.t) :: {:ok, String.t} | {:error, atom()}
-  def get("https://fail.com"), do: {:error, :not_found}
+  @spec get(String.t) :: %{body: String.t, status_code: integer()}
+  def get("https://fail.com"), do: %{status_code: 404, body: "NOT FOUND"}
   def get(url) do
-    {:ok, %{body: "FAKE RESPONSE FOR: " <> url}}
+    %{body: "FAKE RESPONSE FOR: " <> url, status_code: 200}
   end
 end

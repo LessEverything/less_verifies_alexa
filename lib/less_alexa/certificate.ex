@@ -35,16 +35,17 @@ defmodule LessAlexa.Certificate do
   # TODO: Actually cache
   @spec fetch(String.t) :: {:ok, String.t} | {atom(), atom()}
   def fetch(pem_url) do
-    client = Application.fetch_env!(:less_alexa, :http_client)
-    ets_table = :ets.new(:alexa_pems, [])
-    {status, result} = client.get(pem_url)
+    client = Application.get_env(:less_alexa, :http_client, HTTPotion)
 
-    case status do
-      :ok ->
-        pem = result.body
-        :ets.insert(ets_table, {pem_url, pem})
-        {:ok, pem}
-      _ -> {status, result}
+    ets_table = :ets.new(:alexa_pems, [])
+    %{body: body, status_code: status} = client.get(pem_url)
+
+    case status in [200, 201] do
+      true ->
+        :ets.insert(ets_table, {pem_url, body})
+        {:ok, body}
+      false ->
+        {:error, body}
     end
   end
 

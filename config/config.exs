@@ -30,6 +30,4 @@ use Mix.Config
 
 if Mix.env == :test do
   config :less_alexa, :http_client, LessAlexa.FakeHTTPotion
-else
-  config :less_alexa, :http_client, HTTPotion
 end

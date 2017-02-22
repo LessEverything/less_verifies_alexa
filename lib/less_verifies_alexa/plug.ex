@@ -63,14 +63,18 @@ defmodule LessVerifiesAlexa.Plug do
   end
 
   defp check_certificate_validity(conn) do
-    [signature] = get_req_header(conn, "signature")
-    [cert_url] = get_req_header(conn, "signaturecertchainurl")
-    raw_body = conn.private[:raw_body]
-    {:ok, cert} = LessVerifiesAlexa.Certificate.fetch(cert_url)
+    try do
+      [signature] = get_req_header(conn, "signature")
+      [cert_url] = get_req_header(conn, "signaturecertchainurl")
+      raw_body = conn.private[:raw_body]
+      {:ok, cert} = LessVerifiesAlexa.Certificate.fetch(cert_url)
 
-    case LessVerifiesAlexa.Certificate.valid?(signature, cert, raw_body) do
-      :ok -> conn
-      _ -> halt(conn)
+      case LessVerifiesAlexa.Certificate.valid?(signature, cert, raw_body) do
+        :ok -> conn
+        _ -> halt(conn)
+      end
+    rescue
+      MatchError -> halt(conn)
     end
   end
 

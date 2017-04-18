@@ -145,6 +145,10 @@ defmodule LessVerifiesAlexa.Certificate do
       |> get_field(:subjectPublicKey)
   end
 
+  defp confirm_payload_signature(_cert, _signature, nil) do
+    raise ArgumentError, "Couldn't confirm the payload signature. Please change your router to use the AlexaJSON plug. See the README for details."
+  end
+
   defp confirm_payload_signature(cert, req_signature, raw_body) do
     :public_key.verify(
       raw_body,

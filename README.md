@@ -21,7 +21,9 @@ end
 
 Add the plug to your router like this:
 ```
-plug LessVerifiesAlexa.Plug, application_id: "your_app_id"
+if Mix.env == :prod do # You don't want this to run in dev & test.
+  plug LessVerifiesAlexa.Plug, application_id: "your_app_id"
+end
 ```
 
 In order for the plug to work, there's an additional change you have to make.

@@ -50,7 +50,7 @@ defmodule LessVerifiesAlexa.Plug do
   end
 
   defp check_application_id(_conn, nil) do
-    raise ArgumentError, "ValidateRequest expects an :application_id option"
+    raise ArgumentError, "LessVerifiesAlexa.Plug expects an :application_id option"
   end
 
   defp check_application_id(conn, app_id) do

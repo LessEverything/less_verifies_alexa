@@ -33,7 +33,7 @@ defmodule LessVerifiesAlexa.Mixfile do
       {:httpotion, "~> 3.0"},
       {:credo, "~> 0.6", only: [:dev], runtime: false},
       {:dialyxir, "~> 0.4", only: [:dev], runtime: false},
-      {:ex_doc, "~> 0.12", only: :docs},
+      {:ex_doc, "~> 0.12", only: [:dev, :docs]},
       {:inch_ex, ">= 0.0.0", only: :docs}
     ]
   end
